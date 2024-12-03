@@ -1,0 +1,68 @@
+  TicTacToeApp.HomePage.resources - Embedded, ContainedInManifestFile, 
+  TicTacToeApp.MainForm.resources - Embedded, ContainedInManifestFile, 
+  TicTacToeApp.MatchGameplayPage.resources - Embedded, ContainedInManifestFile, 
+  TicTacToeApp.NewMatchOptionPage.resources - Embedded, ContainedInManifestFile, 
+  TicTacToeApp.ThemeEditPage.resources - Embedded, ContainedInManifestFile, 
+  TicTacToeApp.ViewReplayOptionPage.resources - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v4.0.30319
+Assembly TicTacToeApp, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class HomePage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.UserControl
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Events:
+    System.EventHandler GoToViewReplayOptionPage: SpecialName
+    System.EventHandler GoToNewMatchOptionPage: SpecialName
+    System.EventHandler GoToThemeEditPage: SpecialName
+  Methods:
+    add_GoToThemeEditPage(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToThemeEditPage(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_GoToNewMatchOptionPage(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToNewMatchOptionPage(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_GoToViewReplayOptionPage(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToViewReplayOptionPage(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+Class ThemeEditPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.UserControl
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Events:
+    System.EventHandler GoToHome: SpecialName
+  Methods:
+    add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+Class TicTacToeApp.NewMatchOptionPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.UserControl
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Events:
+    System.EventHandler GoToMatchGameplay: SpecialName
+    System.EventHandler GoToHome: SpecialName
+  Methods:
+    add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_GoToMatchGameplay(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToMatchGameplay(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+Class TicTacToeApp.ViewReplayOptionPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.UserControl
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Events:
+    System.EventHandler GoToHome: SpecialName
+  Methods:
+    add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+Class TicTacToeApp.MatchGameplayPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.UserControl
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class TicTacToeApp.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

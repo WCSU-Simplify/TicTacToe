@@ -1,0 +1,8 @@
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.vcxproj.AssemblyReference.cache
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.HomePage.resources
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.MainForm.resources
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.ThemeEditPage.resources
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.vcxproj.GenerateResource.cache
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.NewMatchOptionPage.resources
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.ViewReplayOptionPage.resources
+C:\Users\argje\source\repos\TicTacToeApp\TicTacToeApp\Debug\TicTacToeApp.MatchGameplayPage.resources
