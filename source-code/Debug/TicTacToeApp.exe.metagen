@@ -37,21 +37,23 @@ Class ThemeEditPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.UserControl
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Events:
-    System.EventHandler GoToHome: SpecialName
+    System.EventHandler`1[System.Int32] GoToHome: SpecialName
   Methods:
-    add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_GoToHome(EventHandler`1): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToHome(EventHandler`1): PrivateScope, Public, HideBySig, SpecialName
 Class TicTacToeApp.NewMatchOptionPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.UserControl
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Boolean whoGoesFirst : Public
   Events:
-    System.EventHandler GoToMatchGameplay: SpecialName
+    System.EventHandler`1[System.Boolean] GoToMatchGameplay: SpecialName
     System.EventHandler GoToHome: SpecialName
   Methods:
     add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
     remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    add_GoToMatchGameplay(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    remove_GoToMatchGameplay(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_GoToMatchGameplay(EventHandler`1): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToMatchGameplay(EventHandler`1): PrivateScope, Public, HideBySig, SpecialName
 Class TicTacToeApp.ViewReplayOptionPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.UserControl
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -62,7 +64,7 @@ Class TicTacToeApp.ViewReplayOptionPage: AutoLayout, AnsiClass, Class, Public, B
     remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
 Class TicTacToeApp.MatchGameplayPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.UserControl
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Boolean, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class TicTacToeApp.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

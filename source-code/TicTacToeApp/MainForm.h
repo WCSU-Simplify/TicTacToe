@@ -41,7 +41,7 @@ namespace TicTacToeApp {
         NewMatchOptionPage^ newMatchOptionPage;
         ViewReplayOptionPage^ viewReplayOptionPage;
         MatchGameplayPage^ matchGameplayPage;
-
+        int selectedTheme = 1;
 #pragma region Windows Form Designer generated code
         void InitializeComponent(void)
         {
@@ -91,7 +91,7 @@ namespace TicTacToeApp {
                this->themeEditPage->Dock = DockStyle::Fill;
 
                // Subscribe to the GoToHome event
-               this->themeEditPage->GoToHome += gcnew EventHandler(this, &MainForm::NavigateToHome);
+               this->themeEditPage->GoToHome += gcnew EventHandler<int>(this, &MainForm::NavigateToHomeFromThemeEditPage);
 
                this->mainPanel->Controls->Add(this->themeEditPage);
            }
@@ -99,12 +99,12 @@ namespace TicTacToeApp {
            void ShowNewMatchOptionPage()
            {
                this->mainPanel->Controls->Clear();
-               this->newMatchOptionPage = gcnew NewMatchOptionPage();
+               this->newMatchOptionPage = gcnew NewMatchOptionPage(selectedTheme);
                this->newMatchOptionPage->Dock = DockStyle::Fill;
 
                // Subscribe to the GoToHome event
                this->newMatchOptionPage->GoToHome += gcnew EventHandler(this, &MainForm::NavigateToHome);
-               this->newMatchOptionPage->GoToMatchGameplay += gcnew EventHandler(this, &MainForm::NavigateToMatchGameplayPage);
+               this->newMatchOptionPage->GoToMatchGameplay += gcnew EventHandler<bool>(this, &MainForm::NavigateToMatchGameplayPage);
                this->mainPanel->Controls->Add(this->newMatchOptionPage);
            }
 
@@ -120,10 +120,10 @@ namespace TicTacToeApp {
                this->mainPanel->Controls->Add(this->viewReplayOptionPage);
            }
 
-           void ShowMatchGameplayPage()
+           void ShowMatchGameplayPage(bool whoGoesFirst)
            {
                this->mainPanel->Controls->Clear();
-               this->matchGameplayPage = gcnew MatchGameplayPage();
+               this->matchGameplayPage = gcnew MatchGameplayPage(whoGoesFirst, selectedTheme);//True means player1 goes first, int is themeStyle.
                this->matchGameplayPage->Dock = DockStyle::Fill;
 
                // Subscribe to the GoToHome event
@@ -134,9 +134,10 @@ namespace TicTacToeApp {
 
            
            void NavigateToHome(Object^ sender, EventArgs^ e) { ShowHomePage(); }
+           void NavigateToHomeFromThemeEditPage(Object^ sender, int themeStyle) { ShowHomePage(); selectedTheme = themeStyle; }
            void NavigateToThemeEditPage(Object^ sender, EventArgs^ e) { ShowThemeEditPage(); }
            void NavigateToNewMatchOptionPage(Object^ sender, EventArgs^ e) { ShowNewMatchOptionPage(); }
            void NavigateToViewReplayOptionPage(Object^ sender, EventArgs^ e) { ShowViewReplayOptionPage(); }
-           void NavigateToMatchGameplayPage(Object^ sender, EventArgs^ e) { ShowMatchGameplayPage(); }
+           void NavigateToMatchGameplayPage(Object^ sender, bool whoGoesFirst) { ShowMatchGameplayPage(whoGoesFirst); }
     };
 }

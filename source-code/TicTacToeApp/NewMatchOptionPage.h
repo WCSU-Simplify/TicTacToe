@@ -17,16 +17,16 @@ namespace TicTacToeApp {
 	{
 	public:
 		event EventHandler^ GoToHome;
-		event EventHandler^ GoToMatchGameplay;
+		event EventHandler<bool>^ GoToMatchGameplay;
 
-		NewMatchOptionPage(void)
+		bool whoGoesFirst = true;
+		NewMatchOptionPage(int themeStyle)
 		{
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
 			//
 		}
-
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -43,11 +43,13 @@ namespace TicTacToeApp {
 	private: System::Windows::Forms::Label^ tictactoeHeaderLabel;
 	private: System::Windows::Forms::Label^ selectMatchModeLabel;
 	private: System::Windows::Forms::Label^ selectWhoGoesFirstLabel;
-	private: System::Windows::Forms::Label^ selectDifficultyLabel;
-	private: System::Windows::Forms::ComboBox^ selectDifficultyComboBox;
+
+
 	private: System::Windows::Forms::Button^ createMatchBtn;
 	private: System::Windows::Forms::ComboBox^ matchModeComboBox;
 	private: System::Windows::Forms::ComboBox^ whoGoesFirstComboBox;
+	private: System::Windows::Forms::ComboBox^ selectDifficultyComboBox;
+	private: System::Windows::Forms::Label^ selectDifficultyLabel;
 	protected:
 
 	private:
@@ -68,11 +70,11 @@ namespace TicTacToeApp {
 			this->tictactoeHeaderLabel = (gcnew System::Windows::Forms::Label());
 			this->selectMatchModeLabel = (gcnew System::Windows::Forms::Label());
 			this->selectWhoGoesFirstLabel = (gcnew System::Windows::Forms::Label());
-			this->selectDifficultyLabel = (gcnew System::Windows::Forms::Label());
-			this->selectDifficultyComboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->createMatchBtn = (gcnew System::Windows::Forms::Button());
 			this->matchModeComboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->whoGoesFirstComboBox = (gcnew System::Windows::Forms::ComboBox());
+			this->selectDifficultyComboBox = (gcnew System::Windows::Forms::ComboBox());
+			this->selectDifficultyLabel = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// btnGoToHome
@@ -93,7 +95,7 @@ namespace TicTacToeApp {
 				static_cast<System::Byte>(0)));
 			this->simplifyLabel->Location = System::Drawing::Point(254, 116);
 			this->simplifyLabel->Name = L"simplifyLabel";
-			this->simplifyLabel->Size = System::Drawing::Size(156, 32);
+			this->simplifyLabel->Size = System::Drawing::Size(155, 32);
 			this->simplifyLabel->TabIndex = 30;
 			this->simplifyLabel->Text = L"By Simplify";
 			// 
@@ -113,7 +115,7 @@ namespace TicTacToeApp {
 			this->selectMatchModeLabel->AutoSize = true;
 			this->selectMatchModeLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectMatchModeLabel->Location = System::Drawing::Point(116, 176);
+			this->selectMatchModeLabel->Location = System::Drawing::Point(238, 176);
 			this->selectMatchModeLabel->Name = L"selectMatchModeLabel";
 			this->selectMatchModeLabel->Size = System::Drawing::Size(219, 29);
 			this->selectMatchModeLabel->TabIndex = 31;
@@ -124,30 +126,11 @@ namespace TicTacToeApp {
 			this->selectWhoGoesFirstLabel->AutoSize = true;
 			this->selectWhoGoesFirstLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectWhoGoesFirstLabel->Location = System::Drawing::Point(116, 289);
+			this->selectWhoGoesFirstLabel->Location = System::Drawing::Point(238, 289);
 			this->selectWhoGoesFirstLabel->Name = L"selectWhoGoesFirstLabel";
 			this->selectWhoGoesFirstLabel->Size = System::Drawing::Size(253, 29);
 			this->selectWhoGoesFirstLabel->TabIndex = 32;
 			this->selectWhoGoesFirstLabel->Text = L"Select Who Goes First";
-			// 
-			// selectDifficultyLabel
-			// 
-			this->selectDifficultyLabel->AutoSize = true;
-			this->selectDifficultyLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectDifficultyLabel->Location = System::Drawing::Point(388, 176);
-			this->selectDifficultyLabel->Name = L"selectDifficultyLabel";
-			this->selectDifficultyLabel->Size = System::Drawing::Size(176, 29);
-			this->selectDifficultyLabel->TabIndex = 33;
-			this->selectDifficultyLabel->Text = L"Select Difficulty";
-			// 
-			// selectDifficultyComboBox
-			// 
-			this->selectDifficultyComboBox->FormattingEnabled = true;
-			this->selectDifficultyComboBox->Location = System::Drawing::Point(393, 220);
-			this->selectDifficultyComboBox->Name = L"selectDifficultyComboBox";
-			this->selectDifficultyComboBox->Size = System::Drawing::Size(121, 28);
-			this->selectDifficultyComboBox->TabIndex = 34;
 			// 
 			// createMatchBtn
 			// 
@@ -161,19 +144,47 @@ namespace TicTacToeApp {
 			// 
 			// matchModeComboBox
 			// 
+			this->matchModeComboBox->DisplayMember = L"Singleplayer";
 			this->matchModeComboBox->FormattingEnabled = true;
-			this->matchModeComboBox->Location = System::Drawing::Point(121, 220);
+			this->matchModeComboBox->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Singleplayer", L"Multiplayer" });
+			this->matchModeComboBox->Location = System::Drawing::Point(243, 220);
 			this->matchModeComboBox->Name = L"matchModeComboBox";
 			this->matchModeComboBox->Size = System::Drawing::Size(121, 28);
 			this->matchModeComboBox->TabIndex = 36;
+			this->matchModeComboBox->Text = L"Multiplayer";
+			this->matchModeComboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &NewMatchOptionPage::matchModeComboBox_SelectedIndexChanged);
 			// 
 			// whoGoesFirstComboBox
 			// 
 			this->whoGoesFirstComboBox->FormattingEnabled = true;
-			this->whoGoesFirstComboBox->Location = System::Drawing::Point(121, 321);
+			this->whoGoesFirstComboBox->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Player1", L"Other" });
+			this->whoGoesFirstComboBox->Location = System::Drawing::Point(243, 321);
 			this->whoGoesFirstComboBox->Name = L"whoGoesFirstComboBox";
 			this->whoGoesFirstComboBox->Size = System::Drawing::Size(121, 28);
 			this->whoGoesFirstComboBox->TabIndex = 37;
+			this->whoGoesFirstComboBox->Text = L"Player1";
+			this->whoGoesFirstComboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &NewMatchOptionPage::whoGoesFirstComboBox_SelectedIndexChanged);
+			// 
+			// selectDifficultyComboBox
+			// 
+			this->selectDifficultyComboBox->FormattingEnabled = true;
+			this->selectDifficultyComboBox->Location = System::Drawing::Point(391, 465);
+			this->selectDifficultyComboBox->Name = L"selectDifficultyComboBox";
+			this->selectDifficultyComboBox->Size = System::Drawing::Size(121, 28);
+			this->selectDifficultyComboBox->TabIndex = 34;
+			this->selectDifficultyComboBox->Visible = false;
+			// 
+			// selectDifficultyLabel
+			// 
+			this->selectDifficultyLabel->AutoSize = true;
+			this->selectDifficultyLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->selectDifficultyLabel->Location = System::Drawing::Point(386, 421);
+			this->selectDifficultyLabel->Name = L"selectDifficultyLabel";
+			this->selectDifficultyLabel->Size = System::Drawing::Size(176, 29);
+			this->selectDifficultyLabel->TabIndex = 33;
+			this->selectDifficultyLabel->Text = L"Select Difficulty";
+			this->selectDifficultyLabel->Visible = false;
 			// 
 			// NewMatchOptionPage
 			// 
@@ -205,7 +216,23 @@ namespace TicTacToeApp {
 	}
 	private: System::Void createMatchBtn_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
-		GoToMatchGameplay(this, EventArgs::Empty);
+		GoToMatchGameplay(this, whoGoesFirst);
+
+	}
+	private: System::Void matchModeComboBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+	}
+	private: System::Void whoGoesFirstComboBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		// Check the selected item in the combo box
+		if (whoGoesFirstComboBox->SelectedItem->ToString() == "Player1")
+		{
+			// Set GoToMatchGameplay to true when "Player1" is selected
+			whoGoesFirst = true;
+		}
+		else {
+			whoGoesFirst = false;
+		}
 	}
 };
 }
