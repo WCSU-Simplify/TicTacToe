@@ -17,7 +17,7 @@ private: System::Windows::Forms::Label^ selectThemLabel;
 private: System::Windows::Forms::ComboBox^ themeComboBox;
 
 
-private: System::Windows::Forms::Button^ saveThemeBtn;
+
 
 
 
@@ -41,14 +41,13 @@ private:
         this->simplifyLabel = (gcnew System::Windows::Forms::Label());
         this->selectThemLabel = (gcnew System::Windows::Forms::Label());
         this->themeComboBox = (gcnew System::Windows::Forms::ComboBox());
-        this->saveThemeBtn = (gcnew System::Windows::Forms::Button());
         this->SuspendLayout();
         // 
         // btnGoToHome
         // 
         this->btnGoToHome->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
             static_cast<System::Byte>(0)));
-        this->btnGoToHome->Location = System::Drawing::Point(75, 57);
+        this->btnGoToHome->Location = System::Drawing::Point(260, 279);
         this->btnGoToHome->Name = L"btnGoToHome";
         this->btnGoToHome->Size = System::Drawing::Size(94, 37);
         this->btnGoToHome->TabIndex = 0;
@@ -99,18 +98,8 @@ private:
         this->themeComboBox->Text = L"Light Theme";
         this->themeComboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &ThemeEditPage::themeComboBox_SelectedIndexChanged);
         // 
-        // saveThemeBtn
-        // 
-        this->saveThemeBtn->Location = System::Drawing::Point(260, 272);
-        this->saveThemeBtn->Name = L"saveThemeBtn";
-        this->saveThemeBtn->Size = System::Drawing::Size(75, 33);
-        this->saveThemeBtn->TabIndex = 34;
-        this->saveThemeBtn->Text = L"Save";
-        this->saveThemeBtn->UseVisualStyleBackColor = true;
-        // 
         // ThemeEditPage
         // 
-        this->Controls->Add(this->saveThemeBtn);
         this->Controls->Add(this->themeComboBox);
         this->Controls->Add(this->selectThemLabel);
         this->Controls->Add(this->simplifyLabel);
@@ -140,14 +129,17 @@ private: System::Void comboBox1_SelectedIndexChanged(System::Object^ sender, Sys
         if (themeComboBox->SelectedItem->ToString() == "Light Theme")
         {
             themeStyle = 1;
+            btnGoToHome->Text = "Save";
         }
         if (themeComboBox->SelectedItem->ToString() == "Dark Theme")
         {
             themeStyle = 2;
+            btnGoToHome->Text = "Save";
         }
         if (themeComboBox->SelectedItem->ToString() == "WCSU Theme")
         {
             themeStyle = 3;
+            btnGoToHome->Text = "Save";
         }
     }
 };

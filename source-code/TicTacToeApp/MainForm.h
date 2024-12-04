@@ -125,10 +125,7 @@ namespace TicTacToeApp {
                this->mainPanel->Controls->Clear();
                this->matchGameplayPage = gcnew MatchGameplayPage(whoGoesFirst, selectedTheme);//True means player1 goes first, int is themeStyle.
                this->matchGameplayPage->Dock = DockStyle::Fill;
-
-               // Subscribe to the GoToHome event
-                //this->matchGameplayPage->GoToHome += gcnew EventHandler(this, &MainForm::NavigateToHome);
-
+               this->matchGameplayPage->GoToHome += gcnew EventHandler(this, &MainForm::NavigateToHome);
                this->mainPanel->Controls->Add(this->matchGameplayPage);
            }
 

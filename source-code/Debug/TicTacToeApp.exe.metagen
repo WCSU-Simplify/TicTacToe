@@ -65,6 +65,14 @@ Class TicTacToeApp.ViewReplayOptionPage: AutoLayout, AnsiClass, Class, Public, B
 Class TicTacToeApp.MatchGameplayPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.UserControl
     Void .ctor(Boolean, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 globalThemeStyle : Public
+    Boolean muteAudio : Public
+  Events:
+    System.EventHandler GoToHome: SpecialName
+  Methods:
+    add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
 Class TicTacToeApp.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
