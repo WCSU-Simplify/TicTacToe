@@ -160,6 +160,7 @@
     <EmbeddedResource Include="NewMatchOptionPage.resx">
       <DependentUpon>NewMatchOptionPage.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx" />
     <EmbeddedResource Include="ThemeEditPage.resx">
       <DependentUpon>ThemeEditPage.h</DependentUpon>
     </EmbeddedResource>
@@ -168,8 +169,30 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Downloads\oIcon.png" />
-    <Image Include="..\..\..\..\..\Downloads\xIcon.png" />
+    <Image Include="..\Debug\Resources\dark-theme-o.png" />
+    <Image Include="..\Debug\Resources\dark-theme-x.png" />
+    <Image Include="..\Debug\Resources\light-theme-o.png" />
+    <Image Include="..\Debug\Resources\light-theme-x.png" />
+    <Image Include="..\Debug\Resources\newLogo.png" />
+    <Image Include="..\Debug\Resources\sound-button-off.png" />
+    <Image Include="..\Debug\Resources\sound-button-on.png" />
+    <Image Include="..\Debug\Resources\wcsu-theme-o.png" />
+    <Image Include="..\Debug\Resources\wcsu-theme-x.png" />
+    <Image Include="light-theme-x.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Debug\Resources\dark-theme-p1move.wav" />
+    <Media Include="..\Debug\Resources\dark-theme-p1win.wav" />
+    <Media Include="..\Debug\Resources\dark-theme-p2move.wav" />
+    <Media Include="..\Debug\Resources\dark-theme-p2win.wav" />
+    <Media Include="..\Debug\Resources\light-theme-p1move.wav" />
+    <Media Include="..\Debug\Resources\light-theme-p1win.wav" />
+    <Media Include="..\Debug\Resources\light-theme-p2move.wav" />
+    <Media Include="..\Debug\Resources\light-theme-p2win.wav" />
+    <Media Include="..\Debug\Resources\wcsu-theme-p1move.wav" />
+    <Media Include="..\Debug\Resources\wcsu-theme-p1win.wav" />
+    <Media Include="..\Debug\Resources\wcsu-theme-p2move.wav" />
+    <Media Include="..\Debug\Resources\wcsu-theme-p2win.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

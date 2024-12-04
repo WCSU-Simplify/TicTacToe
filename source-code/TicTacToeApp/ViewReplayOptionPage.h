@@ -6,7 +6,9 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
-
+using namespace System::IO;
+using namespace System::Resources;
+using namespace System::Reflection;
 
 namespace TicTacToeApp {
 
@@ -20,6 +22,12 @@ namespace TicTacToeApp {
 		ViewReplayOptionPage(void)
 		{
 			InitializeComponent();
+			// Load the resource using ResourceManager
+			// Retrieve the image from the resources
+			System::Resources::ResourceManager^ rm = gcnew System::Resources::ResourceManager("TicTacToeApp.Resource", Assembly::GetExecutingAssembly());
+			System::Drawing::Image^ logoImage = safe_cast<System::Drawing::Image^>(rm->GetObject("newLogo"));
+			this->simplifyLogo->Image = logoImage;
+			//this->simplifyLogo->Image = System::Drawing::Image::FromFile(Application::StartupPath + "\\Resources\\newLogo.png");
 			//
 			//TODO: Add the constructor code here
 			//
@@ -48,6 +56,7 @@ namespace TicTacToeApp {
 	private: System::Windows::Forms::Button^ deleteReplayBtn;
 	private: System::Windows::Forms::Button^ editMemoBtn;
 	private: System::Windows::Forms::ComboBox^ selectReplayComboBox1;
+	private: System::Windows::Forms::PictureBox^ simplifyLogo;
 	protected:
 
 	private:
@@ -71,13 +80,15 @@ namespace TicTacToeApp {
 			this->deleteReplayBtn = (gcnew System::Windows::Forms::Button());
 			this->editMemoBtn = (gcnew System::Windows::Forms::Button());
 			this->selectReplayComboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->simplifyLogo = (gcnew System::Windows::Forms::PictureBox());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->simplifyLogo))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// btnGoToHome
 			// 
 			this->btnGoToHome->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnGoToHome->Location = System::Drawing::Point(75, 57);
+			this->btnGoToHome->Location = System::Drawing::Point(62, 176);
 			this->btnGoToHome->Name = L"btnGoToHome";
 			this->btnGoToHome->Size = System::Drawing::Size(94, 37);
 			this->btnGoToHome->TabIndex = 1;
@@ -91,7 +102,7 @@ namespace TicTacToeApp {
 				static_cast<System::Byte>(0)));
 			this->simplifyLabel->Location = System::Drawing::Point(254, 116);
 			this->simplifyLabel->Name = L"simplifyLabel";
-			this->simplifyLabel->Size = System::Drawing::Size(156, 32);
+			this->simplifyLabel->Size = System::Drawing::Size(155, 32);
 			this->simplifyLabel->TabIndex = 31;
 			this->simplifyLabel->Text = L"By Simplify";
 			// 
@@ -120,41 +131,57 @@ namespace TicTacToeApp {
 			// 
 			// watchReplayBtn
 			// 
-			this->watchReplayBtn->Location = System::Drawing::Point(284, 272);
+			this->watchReplayBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->watchReplayBtn->Location = System::Drawing::Point(260, 272);
 			this->watchReplayBtn->Name = L"watchReplayBtn";
-			this->watchReplayBtn->Size = System::Drawing::Size(75, 50);
+			this->watchReplayBtn->Size = System::Drawing::Size(121, 67);
 			this->watchReplayBtn->TabIndex = 33;
 			this->watchReplayBtn->Text = L"Watch Replay";
 			this->watchReplayBtn->UseVisualStyleBackColor = true;
 			// 
 			// deleteReplayBtn
 			// 
-			this->deleteReplayBtn->Location = System::Drawing::Point(284, 345);
+			this->deleteReplayBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->deleteReplayBtn->Location = System::Drawing::Point(260, 355);
 			this->deleteReplayBtn->Name = L"deleteReplayBtn";
-			this->deleteReplayBtn->Size = System::Drawing::Size(75, 50);
+			this->deleteReplayBtn->Size = System::Drawing::Size(121, 67);
 			this->deleteReplayBtn->TabIndex = 34;
 			this->deleteReplayBtn->Text = L"Delete Replay";
 			this->deleteReplayBtn->UseVisualStyleBackColor = true;
 			// 
 			// editMemoBtn
 			// 
-			this->editMemoBtn->Location = System::Drawing::Point(284, 417);
+			this->editMemoBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->editMemoBtn->Location = System::Drawing::Point(260, 447);
 			this->editMemoBtn->Name = L"editMemoBtn";
-			this->editMemoBtn->Size = System::Drawing::Size(75, 50);
+			this->editMemoBtn->Size = System::Drawing::Size(121, 67);
 			this->editMemoBtn->TabIndex = 35;
-			this->editMemoBtn->Text = L"Edit Memo";
+			this->editMemoBtn->Text = L"Modify Memo";
 			this->editMemoBtn->UseVisualStyleBackColor = true;
+			this->editMemoBtn->Click += gcnew System::EventHandler(this, &ViewReplayOptionPage::editMemoBtn_Click);
 			// 
 			// selectReplayComboBox1
 			// 
+			this->selectReplayComboBox1->DisplayMember = L"beatingRalph";
 			this->selectReplayComboBox1->FormattingEnabled = true;
+			this->selectReplayComboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(1) { L"beatingRalph" });
 			this->selectReplayComboBox1->Location = System::Drawing::Point(260, 219);
 			this->selectReplayComboBox1->Name = L"selectReplayComboBox1";
-			this->selectReplayComboBox1->Size = System::Drawing::Size(121, 28);
+			this->selectReplayComboBox1->Size = System::Drawing::Size(121, 33);
 			this->selectReplayComboBox1->TabIndex = 36;
+			this->selectReplayComboBox1->Text = L"beatingRalph";
+			// 
+			// simplifyLogo
+			// 
+			this->simplifyLogo->Location = System::Drawing::Point(69, 57);
+			this->simplifyLogo->Name = L"simplifyLogo";
+			this->simplifyLogo->Size = System::Drawing::Size(100, 100);
+			this->simplifyLogo->TabIndex = 37;
+			this->simplifyLogo->TabStop = false;
 			// 
 			// ViewReplayOptionPage
 			// 
+			this->Controls->Add(this->simplifyLogo);
 			this->Controls->Add(this->selectReplayComboBox1);
 			this->Controls->Add(this->editMemoBtn);
 			this->Controls->Add(this->deleteReplayBtn);
@@ -163,8 +190,10 @@ namespace TicTacToeApp {
 			this->Controls->Add(this->simplifyLabel);
 			this->Controls->Add(this->tictactoeHeaderLabel);
 			this->Controls->Add(this->btnGoToHome);
+			this->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
 			this->Name = L"ViewReplayOptionPage";
 			this->Size = System::Drawing::Size(600, 600);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->simplifyLogo))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -176,5 +205,7 @@ namespace TicTacToeApp {
 	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
+private: System::Void editMemoBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }

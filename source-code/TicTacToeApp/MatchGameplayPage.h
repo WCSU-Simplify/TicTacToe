@@ -1,11 +1,21 @@
 #pragma once
 
+/*
+MatchGameplayPage UI & Logic
+->Loads board based on whoGoesFirst & matchType
+-->Handles if a symbol can be placed, if a match has been won/lost keeping win counts for both players
+-->Handles match drawn, handles sound effect events, handles disable of sound effect events. 
+*/
+
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
+using namespace System::IO;
+using namespace System::Resources;
+using namespace System::Reflection;
 
 namespace TicTacToeApp {
 
@@ -18,10 +28,13 @@ namespace TicTacToeApp {
 		event EventHandler^ GoToHome;
 		int globalThemeStyle = 1;
 		bool muteAudio = false;
-		MatchGameplayPage(bool whoGoesFirst, int themeStyle)
+		bool singlePlayer = true;
+		System::Resources::ResourceManager^ rm;
+		MatchGameplayPage(bool whoGoesFirst, bool matchType, int themeStyle)
 		{
 			globalThemeStyle = themeStyle;
 			currentPlayer = whoGoesFirst;
+			singlePlayer = matchType;
 			int whoGoesFirstInt = 2;
 			if (whoGoesFirst)
 			{
@@ -30,8 +43,6 @@ namespace TicTacToeApp {
 			else {
 				whoGoesFirstInt = 1;
 			}
-
-			//Replay board first spot; 1 or 2. 1 or 0. 
 
 			board = gcnew array<int>(9) { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 			replayBoard = gcnew array<int>(10) { whoGoesFirstInt, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -44,14 +55,32 @@ namespace TicTacToeApp {
 
 			InitializeComponent();
 
+
+			rm = gcnew System::Resources::ResourceManager("TicTacToeApp.Resource", Assembly::GetExecutingAssembly());
+		
 			setupTheme(globalThemeStyle);
+
+			if (singlePlayer && !currentPlayer)
+			{
+				disableBoard(true);
+				int computerMove = GetSimulatedOpponentMove();
+				HandleClick(computerMove);
+				disableBoard(false);
+			}
+
+			if (singlePlayer)
+			{
+				OtherPlayerLabel->Text = "Sim. Opp.";
+				OtherPlayerLabel->Location = System::Drawing::Point(390, 10);
+			}
+			else {
+				OtherPlayerLabel->Text = "Player2";
+				OtherPlayerLabel->Location = System::Drawing::Point(420, 10);
+			}
 			//
 			//TODO: Add the constructor code here
 			//
 		}
-
-		
-
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -66,44 +95,29 @@ namespace TicTacToeApp {
 	private: int Player1WinCount = 0;
 	private: int OtherPlayerWinCount = 0;
 	private: array<int>^ board;// Holds "X", "O", or nullptr
-	private: array<int>^ replayBoard; // Holds replay match formated data
-	private: bool currentPlayer;// means player1 is X
+	private: array<int>^ replayBoard; // Holds replay match formatted data
+	private: bool currentPlayer;
 	private:     array<array<int>^>^ winningCombinations;
+	
+	protected:
 	private: System::Windows::Forms::PictureBox^ symbolBox0;
 	private: System::Windows::Forms::PictureBox^ symbolBox1;
 	private: System::Windows::Forms::PictureBox^ symbolBox2;
-	private: System::Windows::Forms::PictureBox^ symbolBox5;
-
-
-	protected:
-
-
-
-	private: System::Windows::Forms::PictureBox^ symbolBox4;
-
 	private: System::Windows::Forms::PictureBox^ symbolBox3;
-	private: System::Windows::Forms::PictureBox^ symbolBox8;
-
-
-	private: System::Windows::Forms::PictureBox^ symbolBox7;
-
+	private: System::Windows::Forms::PictureBox^ symbolBox4;
+	private: System::Windows::Forms::PictureBox^ symbolBox5;
 	private: System::Windows::Forms::PictureBox^ symbolBox6;
+	private: System::Windows::Forms::PictureBox^ symbolBox7;
+	private: System::Windows::Forms::PictureBox^ symbolBox8;
 	private: System::Windows::Forms::Label^ Player1Heading;
 	private: System::Windows::Forms::Label^ OtherPlayerLabel;
 	private: System::Windows::Forms::Label^ scoreLabel;
 	private: System::Windows::Forms::PictureBox^ muteBox;
-
 	private: System::Windows::Forms::PictureBox^ endGameBanner;
-
 	private: System::Windows::Forms::Label^ winnerLabel;
 	private: System::Windows::Forms::Button^ rematchBtn;
 	private: System::Windows::Forms::Button^ mainMenuReturnBtn;
 	private: System::Windows::Forms::Button^ saveMatchBtn;
-
-
-
-
-
 
 	protected:
 
@@ -247,7 +261,7 @@ namespace TicTacToeApp {
 			this->Player1Heading->AutoSize = true;
 			this->Player1Heading->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Player1Heading->Location = System::Drawing::Point(62, 10);
+			this->Player1Heading->Location = System::Drawing::Point(55, 10);
 			this->Player1Heading->Name = L"Player1Heading";
 			this->Player1Heading->Size = System::Drawing::Size(155, 46);
 			this->Player1Heading->TabIndex = 9;
@@ -259,11 +273,11 @@ namespace TicTacToeApp {
 			this->OtherPlayerLabel->AutoSize = true;
 			this->OtherPlayerLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->OtherPlayerLabel->Location = System::Drawing::Point(433, 10);
+			this->OtherPlayerLabel->Location = System::Drawing::Point(420, 10);
 			this->OtherPlayerLabel->Name = L"OtherPlayerLabel";
-			this->OtherPlayerLabel->Size = System::Drawing::Size(119, 46);
+			this->OtherPlayerLabel->Size = System::Drawing::Size(155, 46);
 			this->OtherPlayerLabel->TabIndex = 10;
-			this->OtherPlayerLabel->Text = L"Other";
+			this->OtherPlayerLabel->Text = L"Player2";
 			// 
 			// scoreLabel
 			// 
@@ -275,7 +289,6 @@ namespace TicTacToeApp {
 			this->scoreLabel->Size = System::Drawing::Size(99, 46);
 			this->scoreLabel->TabIndex = 11;
 			this->scoreLabel->Text = L"0 - 0";
-			this->scoreLabel->Click += gcnew System::EventHandler(this, &MatchGameplayPage::scoreLabel_Click);
 			// 
 			// muteBox
 			// 
@@ -311,7 +324,6 @@ namespace TicTacToeApp {
 			this->winnerLabel->TabIndex = 15;
 			this->winnerLabel->Text = L"Winner: Player1!";
 			this->winnerLabel->Visible = false;
-			this->winnerLabel->Click += gcnew System::EventHandler(this, &MatchGameplayPage::label1_Click);
 			// 
 			// rematchBtn
 			// 
@@ -439,13 +451,10 @@ namespace TicTacToeApp {
 		   
 	private: System::Void HandleClick(int index)
 	{
-		// 0 -> 1,1 
-		replayBoard[index +1 ] = index +1; 
-
+		replayBoard[index +1 ] = index +1;// Used to house history of match, for replay ability.
 		if (board[index] != -1)
 		{
-			//MessageBox::Show("This square is already taken!");
-			return;
+			return;// If pressed area already contains a symbol.
 		}
 
 		// Place the current player's symbol
@@ -461,12 +470,11 @@ namespace TicTacToeApp {
 		// Update the PictureBox to display the symbol
 		UpdateSymbol(index);
 
-		
+		//disableBoard(true);
 
 		// Check if the game is over
 		if (CheckWinner())
 		{
-			//MessageBox::Show(currentPlayer + " wins!");
 			if (currentPlayer)
 			{
 				this->winnerLabel->Text = "Winner: Player1";
@@ -476,14 +484,14 @@ namespace TicTacToeApp {
 				this->winnerLabel->Text = "Winner: Other";
 				OtherPlayerWinCount++;
 			}
+
 			toggleEndView(true);
 			if (!muteAudio)
 			{
 				PlayWinAudio();
 			}
-				
+			
 			this->scoreLabel->Text = Player1WinCount.ToString() + " - " + OtherPlayerWinCount.ToString();
-			//ResetGame();
 			return;
 		}
 
@@ -498,13 +506,67 @@ namespace TicTacToeApp {
 		{
 			PlaySymbolAudio();//Symbol only. 
 		}
-		
+
+		Application::DoEvents();// Render UI Changes
 
 		// Switch to the next player
 		currentPlayer = !currentPlayer;
 
-		return;
+		if (singlePlayer && !currentPlayer) // Computer's turn
+		{
+			disableBoard(true);
+			System::Threading::Thread::Sleep(500); // Optional: Add a delay for realism
+			int computerMove = GetSimulatedOpponentMove();
+			HandleClick(computerMove);
+			disableBoard(false);
+		}
 
+		return;
+	}
+
+	private: int GetSimulatedOpponentMove()
+	{
+		// Simple AI for the computer's move
+		// 1. Check if the computer can win
+		for (int i = 0; i < 9; i++) // Assuming a 3x3 board
+		{
+			if (board[i] == -1) // If the spot is empty
+			{
+				board[i] = 0; // Simulate computer's move
+				if (CheckWinner())
+				{
+					board[i] = -1; // Undo the move
+					return i;      // Choose this move to win
+				}
+				board[i] = -1; // Undo the move
+			}
+		}
+
+		// 2. Block the player from winning
+		for (int i = 0; i < 9; i++)
+		{
+			if (board[i] == -1) // If the spot is empty
+			{
+				board[i] = 1; // Simulate player's move
+				if (CheckWinner())
+				{
+					board[i] = -1; // Undo the move
+					return i;      // Choose this move to block
+				}
+				board[i] = -1; // Undo the move
+			}
+		}
+
+		// 3. Choose the first available spot
+		for (int i = 0; i < 9; i++)
+		{
+			if (board[i] == -1)
+			{
+				return i;
+			}
+		}
+
+		return -1; // No valid move (should not happen if IsBoardFull() is correct)
 	}
 
 	private:
@@ -548,13 +610,16 @@ namespace TicTacToeApp {
 					switch (globalThemeStyle)
 					{
 					case 1:
-						xIcon = Image::FromFile(Application::StartupPath + "\\Resources\\light-theme-x.png");
+						xIcon = safe_cast<System::Drawing::Image^>(rm->GetObject("light-theme-x"));
+							//Image::FromFile(Application::StartupPath + "\\Resources\\light-theme-x.png");
 						break;
 					case 2:
-						xIcon = Image::FromFile(Application::StartupPath + "\\Resources\\dark-theme-x.png");
+						xIcon = xIcon = safe_cast<System::Drawing::Image^>(rm->GetObject("dark-theme-x"));
+							//Image::FromFile(Application::StartupPath + "\\Resources\\dark-theme-x.png");
 						break;
 					case 3:
-						xIcon = Image::FromFile(Application::StartupPath + "\\Resources\\wcsu-theme-x.png");
+						xIcon = xIcon = safe_cast<System::Drawing::Image^>(rm->GetObject("wcsu-theme-x"));
+							//Image::FromFile(Application::StartupPath + "\\Resources\\wcsu-theme-x.png");
 						break;
 					}
 
@@ -568,13 +633,16 @@ namespace TicTacToeApp {
 					switch (globalThemeStyle)
 					{
 					case 1:
-						oIcon = Image::FromFile(Application::StartupPath + "\\Resources\\light-theme-o.png");
+						oIcon = safe_cast<System::Drawing::Image^>(rm->GetObject("light-theme-o"));
+							//Image::FromFile(Application::StartupPath + "\\Resources\\light-theme-o.png");
 						break;
 					case 2:
-						oIcon = Image::FromFile(Application::StartupPath + "\\Resources\\dark-theme-o.png");
+						oIcon = safe_cast<System::Drawing::Image^>(rm->GetObject("dark-theme-o"));
+							//Image::FromFile(Application::StartupPath + "\\Resources\\dark-theme-o.png");
 						break;
 					case 3:
-						oIcon = Image::FromFile(Application::StartupPath + "\\Resources\\wcsu-theme-o.png");
+						oIcon = safe_cast<System::Drawing::Image^>(rm->GetObject("wcsu-theme-o"));
+							//Image::FromFile(Application::StartupPath + "\\Resources\\wcsu-theme-o.png");
 						break;
 					}
 
@@ -588,8 +656,10 @@ namespace TicTacToeApp {
 		System::Void ResetGame()
 		{
 			board = gcnew array<int>(9) { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-			currentPlayer = !currentPlayer;
 
+			currentPlayer = !currentPlayer;
+			
+			//bool previousTurn = currentPlayer;
 			// Clear PictureBoxes
 			symbolBox0->Image = nullptr;
 			symbolBox1->Image = nullptr;
@@ -601,7 +671,23 @@ namespace TicTacToeApp {
 			symbolBox7->Image = nullptr;
 			symbolBox8->Image = nullptr;
 
+			
+
+			if (singlePlayer && !currentPlayer)
+			{
+				//System::Threading::Thread::Sleep(500); // Optional: Add a delay for realism
+				disableBoard(true);
+				int computerMove = GetSimulatedOpponentMove();
+				HandleClick(computerMove);
+				disableBoard(false);
+			}
+			else {
+				disableBoard(false);
+			}
+			
+
 			toggleEndView(false);
+
 
 			// Repeat for other PictureBoxes (symbolBox2, symbolBox3, ...)
 		}
@@ -610,35 +696,42 @@ namespace TicTacToeApp {
 		void PlayWinAudio()
 		{
 			//Identify the sound Path;
-			String^ filePath1;
-			String^ filePath2;
+			System::IO::MemoryStream^ soundStream1; 
+			System::IO::MemoryStream^ soundStream2; 
+
 			switch (globalThemeStyle)
 			{
 			case 1:
-				filePath1 = (Application::StartupPath + "\\Resources\\light-theme-p1win.wav");
-				filePath2 = (Application::StartupPath + "\\Resources\\light-theme-p2win.wav");
+
+				soundStream1 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("light-theme-p1win"));
+				soundStream2 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("light-theme-p2win"));
+				//filePath1 = (Application::StartupPath + "\\Resources\\light-theme-p1win.wav");
+				//filePath2 = (Application::StartupPath + "\\Resources\\light-theme-p2win.wav");
 				break;
 			case 2:
-				filePath1 = (Application::StartupPath + "\\Resources\\dark-theme-p1win.wav");
-				filePath2 = (Application::StartupPath + "\\Resources\\dark-theme-p2win.wav");
+				soundStream1 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("dark-theme-p1win"));
+				soundStream2 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("dark-theme-p2win"));
+				//filePath1 = (Application::StartupPath + "\\Resources\\dark-theme-p1win.wav");
+				//filePath2 = (Application::StartupPath + "\\Resources\\dark-theme-p2win.wav");
 				break;
 			case 3:
-				filePath1 = (Application::StartupPath + "\\Resources\\wcsu-theme-p1win.wav");
-				filePath2 = (Application::StartupPath + "\\Resources\\wcsu-theme-p2win.wav");
+				soundStream1 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("wcsu-theme-p1win"));
+				soundStream2 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("wcsu-theme-p2win"));
+				//filePath1 = (Application::StartupPath + "\\Resources\\wcsu-theme-p1win.wav");
+				//filePath2 = (Application::StartupPath + "\\Resources\\wcsu-theme-p2win.wav");
 				break;
 			}
-
-
 
 			try {
 				// Create an instance of SoundPlayer
 				System::Media::SoundPlayer^ player;
 				if (currentPlayer)
 				{
-					player = gcnew System::Media::SoundPlayer(filePath1);
+					//player = gcnew System::Media::SoundPlayer(filePath1);
+					player = gcnew System::Media::SoundPlayer(soundStream1);
 				}
 				else {
-					player = gcnew System::Media::SoundPlayer(filePath2);
+					player = gcnew System::Media::SoundPlayer(soundStream2);
 				}
 
 
@@ -660,21 +753,27 @@ namespace TicTacToeApp {
 		void PlaySymbolAudio() 
 		{
 			//Identify the sound Path;
-			String^ filePath1;
-			String^ filePath2;
+			System::IO::MemoryStream^ soundStream1;
+			System::IO::MemoryStream^ soundStream2;
 			switch (globalThemeStyle)
 			{
 			case 1:
-				filePath1 = (Application::StartupPath + "\\Resources\\light-theme-p1move.wav");
-				filePath2 = (Application::StartupPath + "\\Resources\\light-theme-p2move.wav");
+				//filePath1 = (Application::StartupPath + "\\Resources\\light-theme-p1move.wav");
+				//filePath2 = (Application::StartupPath + "\\Resources\\light-theme-p2move.wav");
+				soundStream1 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("light-theme-p1move"));
+				soundStream2 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("light-theme-p2move"));
 				break;
 			case 2:
-				filePath1 = (Application::StartupPath + "\\Resources\\dark-theme-p1move.wav");
-				filePath2 = (Application::StartupPath + "\\Resources\\dark-theme-p2move.wav");
+				//filePath1 = (Application::StartupPath + "\\Resources\\dark-theme-p1move.wav");
+				//filePath2 = (Application::StartupPath + "\\Resources\\dark-theme-p2move.wav");
+				soundStream1 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("dark-theme-p1move"));
+				soundStream2 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("dark-theme-p2move"));
 				break;
 			case 3:
-				filePath1 = (Application::StartupPath + "\\Resources\\wcsu-theme-p1move.wav");
-				filePath2 = (Application::StartupPath + "\\Resources\\wcsu-theme-p2move.wav");
+				//filePath1 = (Application::StartupPath + "\\Resources\\wcsu-theme-p1move.wav");
+				//filePath2 = (Application::StartupPath + "\\Resources\\wcsu-theme-p2move.wav");
+				soundStream1 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("wcsu-theme-p1move"));
+				soundStream2 = safe_cast<System::IO::MemoryStream^>(rm->GetObject("wcsu-theme-p2move"));
 				break;
 			}
 
@@ -685,10 +784,10 @@ namespace TicTacToeApp {
 				System::Media::SoundPlayer^ player;
 				if (currentPlayer)
 				{
-					player = gcnew System::Media::SoundPlayer(filePath1);
+					player = gcnew System::Media::SoundPlayer(soundStream1);
 				}
 				else {
-					player = gcnew System::Media::SoundPlayer(filePath2);
+					player = gcnew System::Media::SoundPlayer(soundStream2);
 				}
 				 
 
@@ -732,17 +831,19 @@ namespace TicTacToeApp {
 			rematchBtn->Visible			= showEndView;
 			saveMatchBtn->Visible		= showEndView;
 			endGameBanner->Visible		= showEndView;
+		}
 
-			//Disable the board
-			symbolBox0->Enabled = !showEndView;
-			symbolBox1->Enabled = !showEndView;
-			symbolBox2->Enabled = !showEndView;
-			symbolBox3->Enabled = !showEndView;
-			symbolBox4->Enabled = !showEndView;
-			symbolBox5->Enabled = !showEndView;
-			symbolBox6->Enabled = !showEndView;
-			symbolBox7->Enabled = !showEndView;
-			symbolBox8->Enabled = !showEndView;
+		System::Void disableBoard(bool condition)
+		{
+			symbolBox0->Enabled = !condition;
+			symbolBox1->Enabled = !condition;
+			symbolBox2->Enabled = !condition;
+			symbolBox3->Enabled = !condition;
+			symbolBox4->Enabled = !condition;
+			symbolBox5->Enabled = !condition;
+			symbolBox6->Enabled = !condition;
+			symbolBox7->Enabled = !condition;
+			symbolBox8->Enabled = !condition;
 		}
 
 		System::Void setupTheme(int themeStyle)
@@ -791,19 +892,10 @@ namespace TicTacToeApp {
 			symbolBox5->BackColor = backgroundColor;
 			symbolBox7->BackColor = backgroundColor;
 		}
-
-
-	private: System::Void scoreLabel_Click(System::Object^ sender, System::EventArgs^ e) 
-	{
-
-	}
-private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
-}
 		private: System::Void rematchBtn_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
 			ResetGame();
 		}
-
 		private: System::Void mainMenuReturnBtn_Click(System::Object^ sender, System::EventArgs^ e) 
 		{
 			GoToHome(this, EventArgs::Empty);
@@ -813,15 +905,15 @@ private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e)
 			//Default = false; 
 			if (muteAudio)
 			{
-				muteBox->Image = Image::FromFile(Application::StartupPath + "\\Resources\\sound-button-on.png");
+				muteBox->Image = safe_cast<System::Drawing::Image^>(rm->GetObject("sound-button-on"));
+					//Image::FromFile(Application::StartupPath + "\\Resources\\sound-button-on.png");
 				muteAudio = false;
 			}
 			else {
-				muteBox->Image = Image::FromFile(Application::StartupPath + "\\Resources\\sound-button-off.png");
+				muteBox->Image = safe_cast<System::Drawing::Image^>(rm->GetObject("sound-button-off"));
+					//Image::FromFile(Application::StartupPath + "\\Resources\\sound-button-off.png");
 				muteAudio = true;
 			}
-
-			
 		}
 };
 }

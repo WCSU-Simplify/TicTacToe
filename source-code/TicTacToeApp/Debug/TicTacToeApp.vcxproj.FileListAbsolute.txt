@@ -14,3 +14,4 @@ C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\T
 C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.ThemeEditPage.resources
 C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.ViewReplayOptionPage.resources
 C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.vcxproj.GenerateResource.cache
+C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.Resource.resources

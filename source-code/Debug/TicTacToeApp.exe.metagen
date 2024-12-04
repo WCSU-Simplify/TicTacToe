@@ -2,6 +2,7 @@
   TicTacToeApp.MainForm.resources - Embedded, ContainedInManifestFile, 
   TicTacToeApp.MatchGameplayPage.resources - Embedded, ContainedInManifestFile, 
   TicTacToeApp.NewMatchOptionPage.resources - Embedded, ContainedInManifestFile, 
+  TicTacToeApp.Resource.resources - Embedded, ContainedInManifestFile, 
   TicTacToeApp.ThemeEditPage.resources - Embedded, ContainedInManifestFile, 
   TicTacToeApp.ViewReplayOptionPage.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
@@ -47,7 +48,7 @@ Class TicTacToeApp.NewMatchOptionPage: AutoLayout, AnsiClass, Class, Public, Bef
   Fields:
     Boolean whoGoesFirst : Public
   Events:
-    System.EventHandler`1[System.Boolean] GoToMatchGameplay: SpecialName
+    System.EventHandler`1[System.Tuple`2[System.Boolean,System.Boolean]] GoToMatchGameplay: SpecialName
     System.EventHandler GoToHome: SpecialName
   Methods:
     add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
@@ -64,10 +65,12 @@ Class TicTacToeApp.ViewReplayOptionPage: AutoLayout, AnsiClass, Class, Public, B
     remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
 Class TicTacToeApp.MatchGameplayPage: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.UserControl
-    Void .ctor(Boolean, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Boolean, Boolean, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Fields:
     Int32 globalThemeStyle : Public
     Boolean muteAudio : Public
+    Boolean singlePlayer : Public
+    System.Resources.ResourceManager rm : Public
   Events:
     System.EventHandler GoToHome: SpecialName
   Methods:

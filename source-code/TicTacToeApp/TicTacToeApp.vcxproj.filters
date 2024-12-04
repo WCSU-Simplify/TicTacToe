@@ -55,11 +55,78 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Downloads\xIcon.png">
+    <EmbeddedResource Include="Resource.resx">
+      <Filter>Header Files</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="light-theme-x.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Downloads\oIcon.png">
+    <Image Include="..\Debug\Resources\light-theme-x.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\Debug\Resources\dark-theme-o.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\dark-theme-x.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\light-theme-o.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\newLogo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\sound-button-off.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\sound-button-on.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\wcsu-theme-o.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Debug\Resources\wcsu-theme-x.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Debug\Resources\light-theme-p1move.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\light-theme-p2win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\dark-theme-p1move.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\dark-theme-p1win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\dark-theme-p2move.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\dark-theme-p2win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\light-theme-p1win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\light-theme-p2move.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\wcsu-theme-p1move.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\wcsu-theme-p1win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\wcsu-theme-p2move.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\Debug\Resources\wcsu-theme-p2win.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

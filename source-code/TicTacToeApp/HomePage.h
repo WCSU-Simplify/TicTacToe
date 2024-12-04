@@ -1,35 +1,50 @@
 #pragma once
-
+/*
+Home page view for TicTacToeApp
+->3 buttons/routes; themeEdit, newMatch, viewReplays
+->Simplify Logo
+->App Header Text
+*/
 using namespace System;
 using namespace System::Windows::Forms;
+using namespace System::IO;
+using namespace System::Reflection;
+using namespace System::Resources;
 
 public ref class HomePage : public UserControl {
 public:
     event EventHandler^ GoToThemeEditPage;
     event EventHandler^ GoToNewMatchOptionPage;
     event EventHandler^ GoToViewReplayOptionPage;
-    HomePage() {
+    HomePage() 
+    {
         InitializeComponent();
+
+
+        // Load the resource using ResourceManager
+        // Retrieve the image from the resources
+        System::Resources::ResourceManager^ rm = gcnew System::Resources::ResourceManager("TicTacToeApp.Resource", Assembly::GetExecutingAssembly());
+        System::Drawing::Image^ logoImage = safe_cast<System::Drawing::Image^>(rm->GetObject("newLogo"));
+        this->simplifyLogo->Image = logoImage;
+            //System::Drawing::Image::FromFile(Application::StartupPath + "\\Resources\\newLogo.png");
     }
 private: System::Windows::Forms::Button^ EditThemeBtn;
-public:
 private: System::Windows::Forms::Button^ ViewReplaysBtn;
 private: System::Windows::Forms::Label^ tictactoeHeaderLabel;
 private: System::Windows::Forms::Label^ simplifyLabel;
-
+private: System::Windows::Forms::PictureBox^ simplifyLogo;
 private: System::Windows::Forms::Button^ NewMatchBtn;
 
-
-
 private:
-
-
-    void InitializeComponent() {
+    void InitializeComponent() 
+    {
         this->EditThemeBtn = (gcnew System::Windows::Forms::Button());
         this->ViewReplaysBtn = (gcnew System::Windows::Forms::Button());
         this->NewMatchBtn = (gcnew System::Windows::Forms::Button());
         this->tictactoeHeaderLabel = (gcnew System::Windows::Forms::Label());
         this->simplifyLabel = (gcnew System::Windows::Forms::Label());
+        this->simplifyLogo = (gcnew System::Windows::Forms::PictureBox());
+        (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->simplifyLogo))->BeginInit();
         this->SuspendLayout();
         // 
         // EditThemeBtn
@@ -78,7 +93,6 @@ private:
         this->tictactoeHeaderLabel->Size = System::Drawing::Size(276, 55);
         this->tictactoeHeaderLabel->TabIndex = 27;
         this->tictactoeHeaderLabel->Text = L"Tic Tac Toe";
-        this->tictactoeHeaderLabel->Click += gcnew System::EventHandler(this, &HomePage::tictactoeHeaderLabel_Click);
         // 
         // simplifyLabel
         // 
@@ -87,15 +101,23 @@ private:
             static_cast<System::Byte>(0)));
         this->simplifyLabel->Location = System::Drawing::Point(254, 116);
         this->simplifyLabel->Name = L"simplifyLabel";
-        this->simplifyLabel->Size = System::Drawing::Size(156, 32);
+        this->simplifyLabel->Size = System::Drawing::Size(155, 32);
         this->simplifyLabel->TabIndex = 28;
         this->simplifyLabel->Text = L"By Simplify";
-        this->simplifyLabel->Click += gcnew System::EventHandler(this, &HomePage::label1_Click);
+        // 
+        // simplifyLogo
+        // 
+        this->simplifyLogo->Location = System::Drawing::Point(69, 57);
+        this->simplifyLogo->Name = L"simplifyLogo";
+        this->simplifyLogo->Size = System::Drawing::Size(100, 100);
+        this->simplifyLogo->TabIndex = 29;
+        this->simplifyLogo->TabStop = false;
         // 
         // HomePage
         // 
         this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Inherit;
         this->AutoSize = true;
+        this->Controls->Add(this->simplifyLogo);
         this->Controls->Add(this->simplifyLabel);
         this->Controls->Add(this->tictactoeHeaderLabel);
         this->Controls->Add(this->EditThemeBtn);
@@ -103,11 +125,10 @@ private:
         this->Controls->Add(this->NewMatchBtn);
         this->Name = L"HomePage";
         this->Size = System::Drawing::Size(578, 544);
+        (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->simplifyLogo))->EndInit();
         this->ResumeLayout(false);
         this->PerformLayout();
-
     }
-
     private: System::Void EditThemeBtn_Click(System::Object^ sender, System::EventArgs^ e) 
     {
         GoToThemeEditPage(this, EventArgs::Empty);
@@ -120,8 +141,4 @@ private:
     {
         GoToNewMatchOptionPage(this, EventArgs::Empty);
     }
-private: System::Void tictactoeHeaderLabel_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
-}
 };

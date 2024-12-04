@@ -6,7 +6,9 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
-
+using namespace System::IO;
+using namespace System::Reflection;
+using namespace System::Resources;
 
 namespace TicTacToeApp {
 
@@ -17,12 +19,16 @@ namespace TicTacToeApp {
 	{
 	public:
 		event EventHandler^ GoToHome;
-		event EventHandler<bool>^ GoToMatchGameplay;
+		event EventHandler<Tuple<bool, bool>^>^ GoToMatchGameplay;
 
 		bool whoGoesFirst = true;
 		NewMatchOptionPage(int themeStyle)
 		{
 			InitializeComponent();
+			System::Resources::ResourceManager^ rm = gcnew System::Resources::ResourceManager("TicTacToeApp.Resource", Assembly::GetExecutingAssembly());
+			System::Drawing::Image^ logoImage = safe_cast<System::Drawing::Image^>(rm->GetObject("newLogo"));
+			this->simplifyLogo->Image = logoImage;
+			//this->simplifyLogo->Image = System::Drawing::Image::FromFile(Application::StartupPath + "\\Resources\\newLogo.png");
 			//
 			//TODO: Add the constructor code here
 			//
@@ -46,10 +52,35 @@ namespace TicTacToeApp {
 
 
 	private: System::Windows::Forms::Button^ createMatchBtn;
-	private: System::Windows::Forms::ComboBox^ matchModeComboBox;
-	private: System::Windows::Forms::ComboBox^ whoGoesFirstComboBox;
-	private: System::Windows::Forms::ComboBox^ selectDifficultyComboBox;
-	private: System::Windows::Forms::Label^ selectDifficultyLabel;
+
+
+
+
+	private: System::Windows::Forms::PictureBox^ simplifyLogo;
+	private: System::Windows::Forms::RadioButton^ singleplayerButton;
+	private: System::Windows::Forms::RadioButton^ multiplayerButton;
+	private: System::Windows::Forms::GroupBox^ matchModeGroup;
+	private: System::Windows::Forms::GroupBox^ whoGoesFirstGroup;
+	private: System::Windows::Forms::RadioButton^ playerOneGoesFirst;
+	private: System::Windows::Forms::RadioButton^ otherPlayerGoesFirst;
+	private: System::Windows::Forms::GroupBox^ difficultGroupBox;
+	private: System::Windows::Forms::RadioButton^ easyBtn;
+	private: System::Windows::Forms::RadioButton^ mediumBtn;
+
+
+
+	private: System::Windows::Forms::Label^ difficultLabel;
+	private: System::Windows::Forms::RadioButton^ difficultBtn;
+
+
+
+
+
+
+
+
+
+
 	protected:
 
 	private:
@@ -71,17 +102,29 @@ namespace TicTacToeApp {
 			this->selectMatchModeLabel = (gcnew System::Windows::Forms::Label());
 			this->selectWhoGoesFirstLabel = (gcnew System::Windows::Forms::Label());
 			this->createMatchBtn = (gcnew System::Windows::Forms::Button());
-			this->matchModeComboBox = (gcnew System::Windows::Forms::ComboBox());
-			this->whoGoesFirstComboBox = (gcnew System::Windows::Forms::ComboBox());
-			this->selectDifficultyComboBox = (gcnew System::Windows::Forms::ComboBox());
-			this->selectDifficultyLabel = (gcnew System::Windows::Forms::Label());
+			this->simplifyLogo = (gcnew System::Windows::Forms::PictureBox());
+			this->singleplayerButton = (gcnew System::Windows::Forms::RadioButton());
+			this->multiplayerButton = (gcnew System::Windows::Forms::RadioButton());
+			this->matchModeGroup = (gcnew System::Windows::Forms::GroupBox());
+			this->whoGoesFirstGroup = (gcnew System::Windows::Forms::GroupBox());
+			this->playerOneGoesFirst = (gcnew System::Windows::Forms::RadioButton());
+			this->otherPlayerGoesFirst = (gcnew System::Windows::Forms::RadioButton());
+			this->difficultGroupBox = (gcnew System::Windows::Forms::GroupBox());
+			this->difficultBtn = (gcnew System::Windows::Forms::RadioButton());
+			this->easyBtn = (gcnew System::Windows::Forms::RadioButton());
+			this->mediumBtn = (gcnew System::Windows::Forms::RadioButton());
+			this->difficultLabel = (gcnew System::Windows::Forms::Label());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->simplifyLogo))->BeginInit();
+			this->matchModeGroup->SuspendLayout();
+			this->whoGoesFirstGroup->SuspendLayout();
+			this->difficultGroupBox->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// btnGoToHome
 			// 
 			this->btnGoToHome->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnGoToHome->Location = System::Drawing::Point(75, 57);
+			this->btnGoToHome->Location = System::Drawing::Point(62, 176);
 			this->btnGoToHome->Name = L"btnGoToHome";
 			this->btnGoToHome->Size = System::Drawing::Size(94, 37);
 			this->btnGoToHome->TabIndex = 1;
@@ -115,7 +158,7 @@ namespace TicTacToeApp {
 			this->selectMatchModeLabel->AutoSize = true;
 			this->selectMatchModeLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectMatchModeLabel->Location = System::Drawing::Point(238, 176);
+			this->selectMatchModeLabel->Location = System::Drawing::Point(229, 176);
 			this->selectMatchModeLabel->Name = L"selectMatchModeLabel";
 			this->selectMatchModeLabel->Size = System::Drawing::Size(219, 29);
 			this->selectMatchModeLabel->TabIndex = 31;
@@ -126,7 +169,7 @@ namespace TicTacToeApp {
 			this->selectWhoGoesFirstLabel->AutoSize = true;
 			this->selectWhoGoesFirstLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectWhoGoesFirstLabel->Location = System::Drawing::Point(238, 289);
+			this->selectWhoGoesFirstLabel->Location = System::Drawing::Point(223, 322);
 			this->selectWhoGoesFirstLabel->Name = L"selectWhoGoesFirstLabel";
 			this->selectWhoGoesFirstLabel->Size = System::Drawing::Size(253, 29);
 			this->selectWhoGoesFirstLabel->TabIndex = 32;
@@ -134,67 +177,178 @@ namespace TicTacToeApp {
 			// 
 			// createMatchBtn
 			// 
-			this->createMatchBtn->Location = System::Drawing::Point(260, 421);
+			this->createMatchBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->createMatchBtn->Location = System::Drawing::Point(251, 470);
 			this->createMatchBtn->Name = L"createMatchBtn";
-			this->createMatchBtn->Size = System::Drawing::Size(75, 23);
+			this->createMatchBtn->Size = System::Drawing::Size(100, 36);
 			this->createMatchBtn->TabIndex = 35;
 			this->createMatchBtn->Text = L"Create";
 			this->createMatchBtn->UseVisualStyleBackColor = true;
 			this->createMatchBtn->Click += gcnew System::EventHandler(this, &NewMatchOptionPage::createMatchBtn_Click);
 			// 
-			// matchModeComboBox
+			// simplifyLogo
 			// 
-			this->matchModeComboBox->DisplayMember = L"Singleplayer";
-			this->matchModeComboBox->FormattingEnabled = true;
-			this->matchModeComboBox->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Singleplayer", L"Multiplayer" });
-			this->matchModeComboBox->Location = System::Drawing::Point(243, 220);
-			this->matchModeComboBox->Name = L"matchModeComboBox";
-			this->matchModeComboBox->Size = System::Drawing::Size(121, 28);
-			this->matchModeComboBox->TabIndex = 36;
-			this->matchModeComboBox->Text = L"Multiplayer";
-			this->matchModeComboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &NewMatchOptionPage::matchModeComboBox_SelectedIndexChanged);
+			this->simplifyLogo->Location = System::Drawing::Point(69, 57);
+			this->simplifyLogo->Name = L"simplifyLogo";
+			this->simplifyLogo->Size = System::Drawing::Size(100, 100);
+			this->simplifyLogo->TabIndex = 38;
+			this->simplifyLogo->TabStop = false;
 			// 
-			// whoGoesFirstComboBox
+			// singleplayerButton
 			// 
-			this->whoGoesFirstComboBox->FormattingEnabled = true;
-			this->whoGoesFirstComboBox->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Player1", L"Other" });
-			this->whoGoesFirstComboBox->Location = System::Drawing::Point(243, 321);
-			this->whoGoesFirstComboBox->Name = L"whoGoesFirstComboBox";
-			this->whoGoesFirstComboBox->Size = System::Drawing::Size(121, 28);
-			this->whoGoesFirstComboBox->TabIndex = 37;
-			this->whoGoesFirstComboBox->Text = L"Player1";
-			this->whoGoesFirstComboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &NewMatchOptionPage::whoGoesFirstComboBox_SelectedIndexChanged);
+			this->singleplayerButton->AutoSize = true;
+			this->singleplayerButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->singleplayerButton->Location = System::Drawing::Point(3, 20);
+			this->singleplayerButton->Name = L"singleplayerButton";
+			this->singleplayerButton->Size = System::Drawing::Size(145, 29);
+			this->singleplayerButton->TabIndex = 39;
+			this->singleplayerButton->TabStop = true;
+			this->singleplayerButton->Text = L"Singleplayer";
+			this->singleplayerButton->UseVisualStyleBackColor = true;
+			this->singleplayerButton->CheckedChanged += gcnew System::EventHandler(this, &NewMatchOptionPage::singleplayerButton_CheckedChanged);
 			// 
-			// selectDifficultyComboBox
+			// multiplayerButton
 			// 
-			this->selectDifficultyComboBox->FormattingEnabled = true;
-			this->selectDifficultyComboBox->Location = System::Drawing::Point(391, 465);
-			this->selectDifficultyComboBox->Name = L"selectDifficultyComboBox";
-			this->selectDifficultyComboBox->Size = System::Drawing::Size(121, 28);
-			this->selectDifficultyComboBox->TabIndex = 34;
-			this->selectDifficultyComboBox->Visible = false;
+			this->multiplayerButton->AutoSize = true;
+			this->multiplayerButton->Checked = true;
+			this->multiplayerButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->multiplayerButton->Location = System::Drawing::Point(3, 54);
+			this->multiplayerButton->Name = L"multiplayerButton";
+			this->multiplayerButton->Size = System::Drawing::Size(131, 29);
+			this->multiplayerButton->TabIndex = 40;
+			this->multiplayerButton->TabStop = true;
+			this->multiplayerButton->Text = L"Multiplayer";
+			this->multiplayerButton->UseVisualStyleBackColor = true;
+			this->multiplayerButton->CheckedChanged += gcnew System::EventHandler(this, &NewMatchOptionPage::multiplayerButton_CheckedChanged);
 			// 
-			// selectDifficultyLabel
+			// matchModeGroup
 			// 
-			this->selectDifficultyLabel->AutoSize = true;
-			this->selectDifficultyLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+			this->matchModeGroup->BackColor = System::Drawing::Color::Transparent;
+			this->matchModeGroup->Controls->Add(this->singleplayerButton);
+			this->matchModeGroup->Controls->Add(this->multiplayerButton);
+			this->matchModeGroup->Location = System::Drawing::Point(221, 194);
+			this->matchModeGroup->Name = L"matchModeGroup";
+			this->matchModeGroup->Size = System::Drawing::Size(166, 86);
+			this->matchModeGroup->TabIndex = 41;
+			this->matchModeGroup->TabStop = false;
+			// 
+			// whoGoesFirstGroup
+			// 
+			this->whoGoesFirstGroup->BackColor = System::Drawing::Color::Transparent;
+			this->whoGoesFirstGroup->Controls->Add(this->playerOneGoesFirst);
+			this->whoGoesFirstGroup->Controls->Add(this->otherPlayerGoesFirst);
+			this->whoGoesFirstGroup->Location = System::Drawing::Point(221, 340);
+			this->whoGoesFirstGroup->Name = L"whoGoesFirstGroup";
+			this->whoGoesFirstGroup->Size = System::Drawing::Size(166, 86);
+			this->whoGoesFirstGroup->TabIndex = 42;
+			this->whoGoesFirstGroup->TabStop = false;
+			// 
+			// playerOneGoesFirst
+			// 
+			this->playerOneGoesFirst->AutoSize = true;
+			this->playerOneGoesFirst->Checked = true;
+			this->playerOneGoesFirst->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->playerOneGoesFirst->Location = System::Drawing::Point(4, 20);
+			this->playerOneGoesFirst->Name = L"playerOneGoesFirst";
+			this->playerOneGoesFirst->Size = System::Drawing::Size(103, 29);
+			this->playerOneGoesFirst->TabIndex = 39;
+			this->playerOneGoesFirst->TabStop = true;
+			this->playerOneGoesFirst->Text = L"Player1";
+			this->playerOneGoesFirst->UseVisualStyleBackColor = true;
+			// 
+			// otherPlayerGoesFirst
+			// 
+			this->otherPlayerGoesFirst->AutoSize = true;
+			this->otherPlayerGoesFirst->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->selectDifficultyLabel->Location = System::Drawing::Point(386, 421);
-			this->selectDifficultyLabel->Name = L"selectDifficultyLabel";
-			this->selectDifficultyLabel->Size = System::Drawing::Size(176, 29);
-			this->selectDifficultyLabel->TabIndex = 33;
-			this->selectDifficultyLabel->Text = L"Select Difficulty";
-			this->selectDifficultyLabel->Visible = false;
+			this->otherPlayerGoesFirst->Location = System::Drawing::Point(4, 54);
+			this->otherPlayerGoesFirst->Name = L"otherPlayerGoesFirst";
+			this->otherPlayerGoesFirst->Size = System::Drawing::Size(103, 29);
+			this->otherPlayerGoesFirst->TabIndex = 40;
+			this->otherPlayerGoesFirst->TabStop = true;
+			this->otherPlayerGoesFirst->Text = L"Player2";
+			this->otherPlayerGoesFirst->UseVisualStyleBackColor = true;
+			// 
+			// difficultGroupBox
+			// 
+			this->difficultGroupBox->BackColor = System::Drawing::Color::Transparent;
+			this->difficultGroupBox->Controls->Add(this->difficultBtn);
+			this->difficultGroupBox->Controls->Add(this->easyBtn);
+			this->difficultGroupBox->Controls->Add(this->mediumBtn);
+			this->difficultGroupBox->Location = System::Drawing::Point(401, 195);
+			this->difficultGroupBox->Name = L"difficultGroupBox";
+			this->difficultGroupBox->Size = System::Drawing::Size(122, 111);
+			this->difficultGroupBox->TabIndex = 44;
+			this->difficultGroupBox->TabStop = false;
+			this->difficultGroupBox->Visible = false;
+			// 
+			// difficultBtn
+			// 
+			this->difficultBtn->AutoSize = true;
+			this->difficultBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->difficultBtn->Location = System::Drawing::Point(11, 74);
+			this->difficultBtn->Name = L"difficultBtn";
+			this->difficultBtn->Size = System::Drawing::Size(99, 29);
+			this->difficultBtn->TabIndex = 41;
+			this->difficultBtn->Text = L"Difficult";
+			this->difficultBtn->UseVisualStyleBackColor = true;
+			this->difficultBtn->Visible = false;
+			// 
+			// easyBtn
+			// 
+			this->easyBtn->AutoSize = true;
+			this->easyBtn->Checked = true;
+			this->easyBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->easyBtn->Location = System::Drawing::Point(11, 12);
+			this->easyBtn->Name = L"easyBtn";
+			this->easyBtn->Size = System::Drawing::Size(81, 29);
+			this->easyBtn->TabIndex = 39;
+			this->easyBtn->TabStop = true;
+			this->easyBtn->Text = L"Easy";
+			this->easyBtn->UseVisualStyleBackColor = true;
+			this->easyBtn->Visible = false;
+			// 
+			// mediumBtn
+			// 
+			this->mediumBtn->AutoSize = true;
+			this->mediumBtn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->mediumBtn->Location = System::Drawing::Point(11, 43);
+			this->mediumBtn->Name = L"mediumBtn";
+			this->mediumBtn->Size = System::Drawing::Size(112, 29);
+			this->mediumBtn->TabIndex = 40;
+			this->mediumBtn->Text = L"Medium ";
+			this->mediumBtn->UseVisualStyleBackColor = true;
+			this->mediumBtn->Visible = false;
+			// 
+			// difficultLabel
+			// 
+			this->difficultLabel->AutoSize = true;
+			this->difficultLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
+			this->difficultLabel->Location = System::Drawing::Point(409, 177);
+			this->difficultLabel->Name = L"difficultLabel";
+			this->difficultLabel->Size = System::Drawing::Size(102, 29);
+			this->difficultLabel->TabIndex = 43;
+			this->difficultLabel->Text = L"Difficulty";
+			this->difficultLabel->Visible = false;
+			this->difficultLabel->Click += gcnew System::EventHandler(this, &NewMatchOptionPage::label1_Click);
 			// 
 			// NewMatchOptionPage
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Inherit;
 			this->AutoSize = true;
-			this->Controls->Add(this->whoGoesFirstComboBox);
-			this->Controls->Add(this->matchModeComboBox);
+			this->Controls->Add(this->difficultGroupBox);
+			this->Controls->Add(this->difficultLabel);
+			this->Controls->Add(this->whoGoesFirstGroup);
+			this->Controls->Add(this->matchModeGroup);
+			this->Controls->Add(this->simplifyLogo);
 			this->Controls->Add(this->createMatchBtn);
-			this->Controls->Add(this->selectDifficultyComboBox);
-			this->Controls->Add(this->selectDifficultyLabel);
 			this->Controls->Add(this->selectWhoGoesFirstLabel);
 			this->Controls->Add(this->selectMatchModeLabel);
 			this->Controls->Add(this->simplifyLabel);
@@ -203,6 +357,13 @@ namespace TicTacToeApp {
 			this->Name = L"NewMatchOptionPage";
 			this->Size = System::Drawing::Size(578, 544);
 			this->Load += gcnew System::EventHandler(this, &NewMatchOptionPage::NewMatchOptionPage_Load);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->simplifyLogo))->EndInit();
+			this->matchModeGroup->ResumeLayout(false);
+			this->matchModeGroup->PerformLayout();
+			this->whoGoesFirstGroup->ResumeLayout(false);
+			this->whoGoesFirstGroup->PerformLayout();
+			this->difficultGroupBox->ResumeLayout(false);
+			this->difficultGroupBox->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -216,22 +377,38 @@ namespace TicTacToeApp {
 	}
 	private: System::Void createMatchBtn_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
-		GoToMatchGameplay(this, whoGoesFirst);
-
+		whoGoesFirst = playerOneGoesFirst->Checked;
+		Tuple<bool, bool>^ matchOptions = gcnew Tuple<bool, bool>(whoGoesFirst, singleplayerButton->Checked); // Example values
+		GoToMatchGameplay(this, matchOptions);
 	}
 	private: System::Void matchModeComboBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
 	}
-	private: System::Void whoGoesFirstComboBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) 
+	
+private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+	private: System::Void singleplayerButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
-		// Check the selected item in the combo box
-		if (whoGoesFirstComboBox->SelectedItem->ToString() == "Player1")
+		if (singleplayerButton->Checked)
 		{
-			// Set GoToMatchGameplay to true when "Player1" is selected
-			whoGoesFirst = true;
+			otherPlayerGoesFirst->Text = "Simulated Opponent";
+			difficultGroupBox->Visible = true;
+			difficultLabel->Visible = true;
+			difficultBtn->Visible = true;
+			easyBtn->Visible = true;
+			mediumBtn->Visible = true;
 		}
-		else {
-			whoGoesFirst = false;
+	}
+	private: System::Void multiplayerButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		if (multiplayerButton->Checked)
+		{
+			otherPlayerGoesFirst->Text = "Player2";
+			difficultGroupBox->Visible = false;
+			difficultLabel->Visible = false;
+			difficultBtn->Visible = false;
+			easyBtn->Visible = false;
+			mediumBtn->Visible = false;
 		}
 	}
 };
