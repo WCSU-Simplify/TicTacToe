@@ -1,1 +1,10 @@
-﻿  TicTacToeApp.vcxproj -> C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\Debug\TicTacToeApp.exe
+﻿  HomePage.cpp
+  MainForm.cpp
+  MatchGameplayPage.cpp
+  NewMatchOptionPage.cpp
+  ThemeEditPage.cpp
+  ViewReplayOptionPage.cpp
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Generating Code...
+  HomePage.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  TicTacToeApp.vcxproj -> C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\Debug\TicTacToeApp.exe

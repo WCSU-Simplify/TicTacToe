@@ -15,3 +15,12 @@ C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\T
 C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.ViewReplayOptionPage.resources
 C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.vcxproj.GenerateResource.cache
 C:\Users\RazerBlade\Documents\codeeee\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.Resource.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.vcxproj.AssemblyReference.cache
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.HomePage.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.MainForm.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.MatchGameplayPage.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.NewMatchOptionPage.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.Resource.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.ThemeEditPage.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.ViewReplayOptionPage.resources
+C:\Users\RazerBlade\Documents\codeeee\testtt\TicTacToe\source-code\TicTacToeApp\Debug\TicTacToeApp.vcxproj.GenerateResource.cache

@@ -99,16 +99,15 @@ namespace TicTacToeApp {
 	private: bool currentPlayer;
 	private:     array<array<int>^>^ winningCombinations;
 	
-	protected:
-	private: System::Windows::Forms::PictureBox^ symbolBox0;
-	private: System::Windows::Forms::PictureBox^ symbolBox1;
-	private: System::Windows::Forms::PictureBox^ symbolBox2;
-	private: System::Windows::Forms::PictureBox^ symbolBox3;
-	private: System::Windows::Forms::PictureBox^ symbolBox4;
-	private: System::Windows::Forms::PictureBox^ symbolBox5;
-	private: System::Windows::Forms::PictureBox^ symbolBox6;
-	private: System::Windows::Forms::PictureBox^ symbolBox7;
-	private: System::Windows::Forms::PictureBox^ symbolBox8;
+	public: System::Windows::Forms::PictureBox^ symbolBox0;
+	public: System::Windows::Forms::PictureBox^ symbolBox1;
+	public: System::Windows::Forms::PictureBox^ symbolBox2;
+	public: System::Windows::Forms::PictureBox^ symbolBox3;
+	public: System::Windows::Forms::PictureBox^ symbolBox4;
+	public: System::Windows::Forms::PictureBox^ symbolBox5;
+	public: System::Windows::Forms::PictureBox^ symbolBox6;
+	public: System::Windows::Forms::PictureBox^ symbolBox7;
+	public: System::Windows::Forms::PictureBox^ symbolBox8;
 	private: System::Windows::Forms::Label^ Player1Heading;
 	private: System::Windows::Forms::Label^ OtherPlayerLabel;
 	private: System::Windows::Forms::Label^ scoreLabel;
@@ -877,7 +876,7 @@ namespace TicTacToeApp {
 
 		
 
-		System::Void changeSymbolBoxColors1(Color backgroundColor)
+		public: System::Void changeSymbolBoxColors1(Color backgroundColor)
 		{
 			symbolBox0->BackColor = backgroundColor;
 			symbolBox2->BackColor = backgroundColor;

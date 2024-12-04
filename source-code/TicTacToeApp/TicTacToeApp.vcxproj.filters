@@ -53,6 +53,9 @@
     <ClInclude Include="MatchGameplayPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MatchGameplayPageWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">

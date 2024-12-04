@@ -71,11 +71,22 @@ Class TicTacToeApp.MatchGameplayPage: AutoLayout, AnsiClass, Class, Public, Befo
     Boolean muteAudio : Public
     Boolean singlePlayer : Public
     System.Resources.ResourceManager rm : Public
+    System.Windows.Forms.PictureBox symbolBox0 : Public
+    System.Windows.Forms.PictureBox symbolBox1 : Public
+    System.Windows.Forms.PictureBox symbolBox2 : Public
+    System.Windows.Forms.PictureBox symbolBox3 : Public
+    System.Windows.Forms.PictureBox symbolBox4 : Public
+    System.Windows.Forms.PictureBox symbolBox5 : Public
+    System.Windows.Forms.PictureBox symbolBox6 : Public
+    System.Windows.Forms.PictureBox symbolBox7 : Public
+    System.Windows.Forms.PictureBox symbolBox8 : Public
   Events:
     System.EventHandler GoToHome: SpecialName
   Methods:
     add_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
     remove_GoToHome(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    changeSymbolBoxColors1(Color): PrivateScope, Public, HideBySig
+    changeSymbolBoxColors2(Color): PrivateScope, Public, HideBySig
 Class TicTacToeApp.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

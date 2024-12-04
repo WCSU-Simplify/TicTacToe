@@ -137,6 +137,7 @@
     <ClInclude Include="MatchGameplayPage.h">
       <FileType>CppControl</FileType>
     </ClInclude>
+    <ClInclude Include="MatchGameplayPageWrapper.h" />
     <ClInclude Include="NewMatchOptionPage.h">
       <FileType>CppControl</FileType>
     </ClInclude>
